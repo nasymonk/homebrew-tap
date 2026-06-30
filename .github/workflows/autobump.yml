@@ -28,6 +28,9 @@ jobs:
       - name: Bump iqiyi
         run: bash scripts/bump-iqiyi.sh Casks/iqiyi.rb
 
+      - name: Bump buhocleaner
+        run: bash scripts/bump-buhocleaner.sh Casks/buhocleaner.rb
+
       - name: Commit & push if changed
         run: |
           if [ -n "$(git status --porcelain)" ]; then
