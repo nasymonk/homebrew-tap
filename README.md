@@ -62,16 +62,6 @@ brew install --cask --force <cask-name>
 - [报告问题](https://github.com/nasymonk/homebrew-tap/issues/new?template=bug_report.yml) -- 反馈 cask 安装失败、版本过旧等问题
 - 提交 Pull Request -- 直接添加或修复 cask
 
-### 新增软件流程
-
-1. 在 `Casks/` 下新增 `<name>.rb`，参考同类现有 cask
-2. 选择或编写 bump 脚本，并在 `autobump.yml` 中添加调用步骤：
-   - **优先找 Sparkle appcast**（`Info.plist` 中的 `SUFeedURL`）-> 仿 `bump-buhocleaner.sh`，最稳定
-   - 有 GitHub Releases -> 使用 `bump-cask.sh`，传入 cask 文件 / owner/repo / 资源名 / tag 前缀
-   - 只有官网下载页 -> 仿 `bump-iqiyi.sh` 解析 HTML
-3. 本地验证：`bash scripts/<bump>.sh Casks/<name>.rb` 应输出 `already up-to-date`；`brew livecheck --cask <name>` 能查到版本
-4. 提交 PR，说明软件来源和更新机制
-
 ## License
 
 MIT

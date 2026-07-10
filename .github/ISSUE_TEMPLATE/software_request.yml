@@ -3,6 +3,16 @@ description: 推荐一个 macOS 软件收录到本 tap
 title: "[收录请求] "
 labels: ["enhancement"]
 body:
+  - type: checkboxes
+    id: pre-check
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 该软件**未被** [homebrew-cask](https://formulae.brew.sh/cask/) 官方收录（可通过 `brew search <name>` 确认）
+          required: true
+        - label: 该软件上游作者**没有**自建 Homebrew tap
+          required: true
+
   - type: input
     id: app-name
     attributes:
@@ -14,23 +24,24 @@ body:
   - type: input
     id: app-url
     attributes:
-      label: 官网或下载地址
+      label: 官网或下载页地址
       placeholder: https://example.com/download
     validations:
       required: true
 
   - type: input
-    id: app-version
+    id: update-url
     attributes:
-      label: 当前最新版本
-      placeholder: 例如: 1.2.3
+      label: 版本更新源地址（如有）
+      description: GitHub Releases 页面、Sparkle appcast URL、或包含版本号的下载页
+      placeholder: 例如: https://github.com/owner/repo/releases 或 appcast XML URL
     validations:
       required: false
 
   - type: dropdown
     id: update-source
     attributes:
-      label: 版本更新来源（如已知）
+      label: 更新源类型（如已知）
       options:
         - GitHub Releases
         - Sparkle appcast
@@ -39,18 +50,10 @@ body:
     validations:
       required: false
 
-  - type: input
-    id: update-url
-    attributes:
-      label: 更新源地址（如有）
-      placeholder: 例如: https://github.com/owner/repo/releases 或 appcast URL
-    validations:
-      required: false
-
   - type: textarea
-    id: reason
+    id: context
     attributes:
-      label: 为什么需要收录
-      placeholder: 简要说明该软件未被官方 homebrew-cask 收录的原因，或你认为值得收录的理由
+      label: 补充说明
+      placeholder: 任何有助于收录的信息，例如：为什么官方 cask 未收录、该软件的特点、macOS 兼容性等
     validations:
       required: false

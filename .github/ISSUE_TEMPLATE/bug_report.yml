@@ -3,14 +3,19 @@ description: 报告 cask 安装失败、版本过旧、校验错误等问题
 title: "[问题] "
 labels: ["bug"]
 body:
-  - type: dropdown
+  - type: checkboxes
+    id: pre-check
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 已运行 `brew update` 并重试
+          required: true
+
+  - type: input
     id: cask-name
     attributes:
       label: 涉及的 Cask
-      options:
-        - aio-coding-hub
-        - buhocleaner
-        - iqiyi
+      placeholder: 例如: aio-coding-hub
     validations:
       required: true
 
@@ -19,7 +24,7 @@ body:
     attributes:
       label: 问题类型
       options:
-        - 安装/升级失败
+        - 安装 / 升级失败
         - 版本过旧（未自动更新）
         - SHA256 校验失败
         - 下载链接失效
@@ -39,10 +44,10 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: 相关输出
+      label: 终端输出
+      description: 粘贴相关的命令和输出
       placeholder: |
-        粘贴终端输出或错误日志，例如:
-        brew install --cask nasymonk/tap/xxx
+        $ brew install --cask nasymonk/tap/xxx
         Error: ...
       render: shell
     validations:
@@ -52,22 +57,14 @@ body:
     id: homebrew-version
     attributes:
       label: Homebrew 版本
-      placeholder: 运行 brew --version 获取
+      placeholder: 运行 `brew --version` 获取
     validations:
       required: false
 
   - type: input
     id: macos-version
     attributes:
-      label: macOS 版本
-      placeholder: 例如: macOS 15.4
-    validations:
-      required: false
-
-  - type: input
-    id: chip
-    attributes:
-      label: 芯片架构
-      placeholder: 例如: Apple M4 / Intel
+      label: macOS 版本与芯片
+      placeholder: 例如: macOS 15.4 / Apple M4
     validations:
       required: false
