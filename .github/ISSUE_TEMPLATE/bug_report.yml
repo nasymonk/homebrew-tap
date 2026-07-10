@@ -19,6 +19,14 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: upstream-url
+    attributes:
+      label: 官网链接 / 下载链接
+      placeholder: 便于维护者定位上游资源
+    validations:
+      required: false
+
   - type: dropdown
     id: issue-type
     attributes:
