@@ -1,0 +1,73 @@
+name: 问题反馈
+description: 报告 cask 安装失败、版本过旧、校验错误等问题
+title: "[问题] "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: cask-name
+    attributes:
+      label: 涉及的 Cask
+      options:
+        - aio-coding-hub
+        - buhocleaner
+        - iqiyi
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: 问题类型
+      options:
+        - 安装/升级失败
+        - 版本过旧（未自动更新）
+        - SHA256 校验失败
+        - 下载链接失效
+        - 卸载问题
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      placeholder: 请详细描述遇到的问题
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 相关输出
+      placeholder: |
+        粘贴终端输出或错误日志，例如:
+        brew install --cask nasymonk/tap/xxx
+        Error: ...
+      render: shell
+    validations:
+      required: false
+
+  - type: input
+    id: homebrew-version
+    attributes:
+      label: Homebrew 版本
+      placeholder: 运行 brew --version 获取
+    validations:
+      required: false
+
+  - type: input
+    id: macos-version
+    attributes:
+      label: macOS 版本
+      placeholder: 例如: macOS 15.4
+    validations:
+      required: false
+
+  - type: input
+    id: chip
+    attributes:
+      label: 芯片架构
+      placeholder: 例如: Apple M4 / Intel
+    validations:
+      required: false

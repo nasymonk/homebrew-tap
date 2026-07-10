@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 查看现有软件
+    url: https://github.com/nasymonk/homebrew-tap#现有软件
+    about: 在提交请求前，先查看是否已有你需要的软件

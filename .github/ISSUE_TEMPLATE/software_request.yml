@@ -1,0 +1,56 @@
+name: 软件收录请求
+description: 推荐一个 macOS 软件收录到本 tap
+title: "[收录请求] "
+labels: ["enhancement"]
+body:
+  - type: input
+    id: app-name
+    attributes:
+      label: 软件名称
+      placeholder: 例如: Example App
+    validations:
+      required: true
+
+  - type: input
+    id: app-url
+    attributes:
+      label: 官网或下载地址
+      placeholder: https://example.com/download
+    validations:
+      required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: 当前最新版本
+      placeholder: 例如: 1.2.3
+    validations:
+      required: false
+
+  - type: dropdown
+    id: update-source
+    attributes:
+      label: 版本更新来源（如已知）
+      options:
+        - GitHub Releases
+        - Sparkle appcast
+        - 仅官网下载页
+        - 不确定
+    validations:
+      required: false
+
+  - type: input
+    id: update-url
+    attributes:
+      label: 更新源地址（如有）
+      placeholder: 例如: https://github.com/owner/repo/releases 或 appcast URL
+    validations:
+      required: false
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: 为什么需要收录
+      placeholder: 简要说明该软件未被官方 homebrew-cask 收录的原因，或你认为值得收录的理由
+    validations:
+      required: false

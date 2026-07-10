@@ -1,61 +1,77 @@
 # nasymonk/homebrew-tap
 
-个人 Homebrew tap —— 收录官方 homebrew-cask 未收录、且作者未自建 tap 的软件。
+[![autobump](https://github.com/nasymonk/homebrew-tap/actions/workflows/autobump.yml/badge.svg)](https://github.com/nasymonk/homebrew-tap/actions/workflows/autobump.yml)
 
-## 使用
+社区维护的 Homebrew tap -- 收录官方 [homebrew-cask](https://github.com/Homebrew/homebrew-cask) 未收录、且上游作者未自建 tap 的 macOS 软件。版本由 GitHub Actions **每 5 小时**自动检测并更新，无需手动维护。
+
+## 快速开始
 
 ```bash
+# 1. 添加 tap
 brew tap nasymonk/tap
-brew trust nasymonk/tap                  # brew 6.x 第三方 tap 需先信任
-brew install --cask <name>               # 无重名时可省略前缀
-# 或显式: brew install --cask nasymonk/tap/<name>
+
+# 2. 信任 tap（Homebrew 4.x+ 首次使用第三方 tap 时需要）
+brew trust nasymonk/tap
+
+# 3. 安装软件
+brew install --cask <cask-name>
 ```
 
-升级 / 卸载:
+<details>
+<summary>更多操作</summary>
 
 ```bash
-brew update && brew upgrade --cask <name>
-brew uninstall --cask <name>             # 加 --zap 连配置一起清掉
+# 升级到最新版
+brew update && brew upgrade --cask <cask-name>
+
+# 卸载
+brew uninstall --cask <cask-name>
+
+# 卸载并清除所有配置文件
+brew uninstall --cask --zap <cask-name>
+
+# 强制接管已有 App（/Applications 里已有同名 App 时需要）
+brew install --cask --force <cask-name>
 ```
+
+</details>
 
 ## 现有软件
 
-| Cask | 说明 | 版本来源 | 上游 |
-|------|------|---------|------|
-| `aio-coding-hub` | 本地 AI 网关,统一代理多个 coding CLI | GitHub Releases API | [dyndynjyxa/aio-coding-hub](https://github.com/dyndynjyxa/aio-coding-hub) |
-| `iqiyi` | 爱奇艺视频播放器 | 抓官网下载页 HTML | [app.iqiyi.com](https://app.iqiyi.com/mac/player/index.html) |
+| Cask | 说明 | 自动更新来源 | 上游 |
+|------|------|-------------|------|
+| `aio-coding-hub` | 本地 AI 网关，统一代理多个 coding CLI | GitHub Releases API | [dyndynjyxa/aio-coding-hub](https://github.com/dyndynjyxa/aio-coding-hub) |
 | `buhocleaner` | Mac 清理 / 优化工具 | Sparkle appcast (XML) | [drbuho.com](https://www.drbuho.com/buhocleaner) |
+| `iqiyi` | 爱奇艺视频播放器 | 官网下载页 HTML 解析 | [app.iqiyi.com](https://app.iqiyi.com/mac/player/index.html) |
 
 ## 自动更新机制
 
-`.github/workflows/autobump.yml` **每 5 小时**(cron `17 */5 * * *`)在 GitHub 云端运行,
-依次为每个软件跑对应的 bump 脚本:查上游最新版 → 下载安装包算 sha256 →
-改写 cask 的 `version`/`url`/`sha256` → 有变化就自动 commit & push。
+`.github/workflows/autobump.yml` 每 5 小时（UTC :17）自动运行，依次为每个 cask 执行对应的 bump 脚本：
 
-之后 `brew update`(会自动拉取本 tap 最新内容)+ `brew upgrade` 即可装到新版。
-完全不耗本地资源;也可在 Actions 页面手动 "Run workflow"。
+> 查上游最新版本 -> 下载安装包并计算 SHA256 -> 更新 cask 文件 -> 有变化时自动 commit & push
 
-> 注意:GitHub 规定公开仓库连续 60 天无提交会停用定时任务。
-> 任一软件更新触发提交即自动续期;若真被停用,去 Actions 页面点一下重新启用。
+用户侧只需 `brew update && brew upgrade --cask <name>` 即可获取最新版，完全不耗本地资源。也可在 [Actions](https://github.com/nasymonk/homebrew-tap/actions/workflows/autobump.yml) 页面手动触发。
 
-### 三种 bump 脚本
+> **注意**：GitHub 规定公开仓库连续 60 天无提交会停用定时任务。任一软件更新触发提交即自动续期；若被停用，去 Actions 页面点击 "Run workflow" 重新启用。
 
-| 脚本 | 适用场景 | 版本来源 |
-|------|---------|---------|
-| `scripts/bump-cask.sh` | 上游在 **GitHub Releases** 发版 | Releases API,按 tag 拼 URL |
-| `scripts/bump-iqiyi.sh` | 无 API,**官网下载页**含直链+版本 | 解析页面 HTML |
-| `scripts/bump-buhocleaner.sh` | 有 **Sparkle appcast** | 解析 appcast.xml(最规范) |
+## 贡献
 
-## 新增一个软件
+欢迎通过以下方式参与：
 
-1. 在 `Casks/` 下加一个 `<name>.rb`(参考同类现有 cask)。
-2. 选/写一个 bump 脚本,在 `autobump.yml` 里加一段 step 调用它。
-   - **优先找 Sparkle appcast**(Info.plist 里的 `SUFeedURL`)→ 仿 `bump-buhocleaner.sh`,最稳。
-   - 有 GitHub Releases → 用 `bump-cask.sh`,传 `cask文件 / owner/repo / arm资源名 / intel资源名 / tag前缀`。
-   - 只有官网下载页 → 仿 `bump-iqiyi.sh` 解析 HTML。
-3. 本地验证:`bash scripts/<bump>.sh Casks/<name>.rb` 应报 `already up-to-date`;
-   `brew livecheck --cask <name>` 能查到版本。
-4. commit & push,然后 `brew install --cask <name>`。
+- [提交软件请求](https://github.com/nasymonk/homebrew-tap/issues/new?template=software_request.yml) -- 推荐你希望收录的 macOS 软件
+- [报告问题](https://github.com/nasymonk/homebrew-tap/issues/new?template=bug_report.yml) -- 反馈 cask 安装失败、版本过旧等问题
+- 提交 Pull Request -- 直接添加或修复 cask
 
-> Tip:若 `/Applications` 已有手动装的同名 App,`brew install` 会拒绝覆盖,
-> 加 `--force` 接管;若旧副本是 root 所有,需先 `sudo rm -rf` 删除。
+### 新增软件流程
+
+1. 在 `Casks/` 下新增 `<name>.rb`，参考同类现有 cask
+2. 选择或编写 bump 脚本，并在 `autobump.yml` 中添加调用步骤：
+   - **优先找 Sparkle appcast**（`Info.plist` 中的 `SUFeedURL`）-> 仿 `bump-buhocleaner.sh`，最稳定
+   - 有 GitHub Releases -> 使用 `bump-cask.sh`，传入 cask 文件 / owner/repo / 资源名 / tag 前缀
+   - 只有官网下载页 -> 仿 `bump-iqiyi.sh` 解析 HTML
+3. 本地验证：`bash scripts/<bump>.sh Casks/<name>.rb` 应输出 `already up-to-date`；`brew livecheck --cask <name>` 能查到版本
+4. 提交 PR，说明软件来源和更新机制
+
+## License
+
+MIT
