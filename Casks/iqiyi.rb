@@ -1,5 +1,5 @@
 cask "iqiyi" do
-  version "17.6.5"
+  version "17.6.1"
   sha256 "5a59b71f7d24894b39c319d6d93a4c06147ef5eef8aaad707775177036c210f4"
 
   # URL 文件名是内部构建号 (iQIYIMedia_NNN.dmg),与版本号无关,
