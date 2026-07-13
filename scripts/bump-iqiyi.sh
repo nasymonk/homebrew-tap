@@ -9,11 +9,16 @@ PAGE="https://app.iqiyi.com/mac/player/index.html"
 
 html=$(curl -fsSL "$PAGE")
 
+# 版本号：定位"最新版本"所在的<p>元素，避免被页面其他x.y.z数字干扰
+# 页面结构: <p class="dlInfo j-mac-version2">最新版本：17.6.5</p>
+new_ver=$(sed -nE 's/.*最新版本[：:]\s*([0-9]+\.[0-9]+\.[0-9]+).*/\1/p' <<<"$html" | head -1)
+
+# dmg 地址：static-d.iqiyi.com 域名的 iQIYIMedia_<build>.dmg，模式足够唯一
 new_url=$(grep -oE 'https://static-d\.iqiyi\.com/ext/common/iQIYIMedia_[0-9]+\.dmg' <<<"$html" | head -1)
-new_ver=$(grep -oE '[0-9]+\.[0-9]+\.[0-9]+' <<<"$html" | head -1)
 
 if [ -z "$new_url" ] || [ -z "$new_ver" ]; then
   echo "failed to parse url/version from page (url='$new_url' ver='$new_ver')" >&2
+  echo "possible page structure change, check: $PAGE" >&2
   exit 1
 fi
 
