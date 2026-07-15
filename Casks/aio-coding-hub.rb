@@ -1,12 +1,12 @@
 cask "aio-coding-hub" do
-  version "0.60.13"
+  version "0.60.14"
 
   on_arm do
-    sha256 "4d4b8143e1fe1b3447740ee7f1cdd8c9c5d71eb2ce87ae930b78a83baf3c9419"
+    sha256 "d12818a5f3b8f72f313d5d7eae066dbf192ea16149369d509db8be65e7bdfd37"
     url "https://github.com/dyndynjyxa/aio-coding-hub/releases/download/aio-coding-hub-v#{version}/aio-coding-hub-macos-arm.zip"
   end
   on_intel do
-    sha256 "5c5522ab989a37be7590e7e1973df0435d29eff7f250d9fc130eee3cc53b45dc"
+    sha256 "25da2f6fa8205818cf489c985d94c0ec904cb9bcbd08ad9f22fc6884b61547be"
     url "https://github.com/dyndynjyxa/aio-coding-hub/releases/download/aio-coding-hub-v#{version}/aio-coding-hub-macos-intel.zip"
   end
 
