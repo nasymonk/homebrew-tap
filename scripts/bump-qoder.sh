@@ -10,8 +10,8 @@ ARM_URL="https://download.qoder.com/release/latest/Qoder-darwin-arm64.dmg"
 INTEL_URL="https://download.qoder.com/release/latest/Qoder-darwin-x64.dmg"
 
 # --- 1. HEAD 双架构取 ETag ---
-arm_etag=$(curl -sI --max-time 30 "$ARM_URL" | grep -i '^etag:' | tr -d '\r' | sed 's/^[Ee][Tt]ag: *//')
-intel_etag=$(curl -sI --max-time 30 "$INTEL_URL" | grep -i '^etag:' | tr -d '\r' | sed 's/^[Ee][Tt]ag: *//')
+arm_etag=$(curl -sI --max-time 30 "$ARM_URL" | grep -i '^etag:' | tr -d '\r"' | sed 's/^[Ee][Tt]ag: *//')
+intel_etag=$(curl -sI --max-time 30 "$INTEL_URL" | grep -i '^etag:' | tr -d '\r"' | sed 's/^[Ee][Tt]ag: *//')
 
 if [ -z "$arm_etag" ] || [ -z "$intel_etag" ]; then
   echo "failed to fetch ETag from upstream (arm='${arm_etag:-}' intel='${intel_etag:-}')" >&2
