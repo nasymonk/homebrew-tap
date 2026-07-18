@@ -43,6 +43,7 @@ brew install --cask --force <cask-name>
 | `aio-coding-hub` | 本地 AI 网关，统一代理多个 coding CLI | GitHub Releases API | [dyndynjyxa/aio-coding-hub](https://github.com/dyndynjyxa/aio-coding-hub) |
 | `buhocleaner` | Mac 清理 / 优化工具 | Sparkle appcast (XML) | [drbuho.com](https://www.drbuho.com/buhocleaner) |
 | `iqiyi` | 爱奇艺视频播放器 | 官网下载页 HTML 解析 | [app.iqiyi.com](https://app.iqiyi.com/mac/player/index.html) |
+| `qoder` | Qoder AI 编程 IDE | OSS ETag 变更检测 + dmg 内版本号 | [qoder.com](https://qoder.com/) |
 
 ## 自动更新机制
 
