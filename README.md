@@ -44,6 +44,7 @@ brew install --cask --force <cask-name>
 | `buhocleaner` | Mac 清理 / 优化工具 | Sparkle appcast (XML) | [drbuho.com](https://www.drbuho.com/buhocleaner) |
 | `iqiyi` | 爱奇艺视频播放器 | 官网下载页 HTML 解析 | [app.iqiyi.com](https://app.iqiyi.com/mac/player/index.html) |
 | `qoder` | Qoder AI 编程 IDE | OSS ETag 变更检测 + dmg 内版本号 | [qoder.com](https://qoder.com/) |
+| `qoder-cn` | Qoder AI 编程 IDE 国内版 | OSS ETag 变更检测 + dmg 内版本号 | [qoder.com.cn](https://qoder.com.cn/) |
 
 ## 自动更新机制
 

@@ -31,6 +31,9 @@ jobs:
       - name: Bump qoder
         run: bash scripts/bump-qoder.sh Casks/qoder.rb
 
+      - name: Bump qoder-cn
+        run: bash scripts/bump-qoder-cn.sh Casks/qoder-cn.rb
+
       - name: Bump buhocleaner
         run: bash scripts/bump-buhocleaner.sh Casks/buhocleaner.rb
 
