@@ -10,8 +10,8 @@ ARM_URL="https://ide.qoder.com.cn/qoder/release/lastest/QoderCN-darwin-arm64.dmg
 INTEL_URL="https://ide.qoder.com.cn/qoder/release/lastest/QoderCN-darwin-x64.dmg"
 
 # --- 1. HEAD 双架构取 ETag ---
-arm_etag=$(curl -sI --max-time 30 "$ARM_URL" | grep -i '^etag:' | tr -d '\r"' | sed 's/^[Ee][Tt]ag: *//')
-intel_etag=$(curl -sI --max-time 30 "$INTEL_URL" | grep -i '^etag:' | tr -d '\r"' | sed 's/^[Ee][Tt]ag: *//')
+arm_etag=$(curl -sI --retry 2 --retry-delay 5 --max-time 30 "$ARM_URL" | grep -i '^etag:' | tr -d '\r"' | sed 's/^[Ee][Tt]ag: *//')
+intel_etag=$(curl -sI --retry 2 --retry-delay 5 --max-time 30 "$INTEL_URL" | grep -i '^etag:' | tr -d '\r"' | sed 's/^[Ee][Tt]ag: *//')
 
 if [ -z "$arm_etag" ] || [ -z "$intel_etag" ]; then
   echo "failed to fetch ETag from upstream (arm='${arm_etag:-}' intel='${intel_etag:-}')" >&2
@@ -33,8 +33,8 @@ fi
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
-curl -fsSL --max-time 300 -o "$tmp/arm.dmg" "$ARM_URL"
-curl -fsSL --max-time 300 -o "$tmp/intel.dmg" "$INTEL_URL"
+curl -fsSL --retry 2 --retry-delay 10 --max-time 300 -o "$tmp/arm.dmg" "$ARM_URL"
+curl -fsSL --retry 2 --retry-delay 10 --max-time 300 -o "$tmp/intel.dmg" "$INTEL_URL"
 
 # 挂载 ARM dmg 提取版本号
 vol_path=$(hdiutil attach "$tmp/arm.dmg" -nobrowse -readonly -mountrandom "$tmp" | awk 'END{print $NF}')
